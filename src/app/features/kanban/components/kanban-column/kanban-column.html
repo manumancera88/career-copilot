@@ -1,0 +1,21 @@
+<div class="kanban-column">
+  <h3 class="kanban-column__title">{{ title() }}</h3>
+
+  <div
+    class="kanban-column__cards"
+    cdkDropList
+    [id]="status()"
+    [cdkDropListData]="applications()"
+    [cdkDropListConnectedTo]="connectedTo()"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (app of applications(); track app.id) {
+      <div class="kanban-card" cdkDrag>
+        <strong>{{ app.company }}</strong>
+        <p>{{ app.role }}</p>
+      </div>
+    } @empty {
+      <p class="kanban-column__empty">Sem postulações</p>
+    }
+  </div>
+</div>

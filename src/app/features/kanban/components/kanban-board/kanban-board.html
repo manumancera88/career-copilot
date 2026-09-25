@@ -1,0 +1,28 @@
+<app-application-form />
+
+<div class="kanban-board">
+  <app-kanban-column
+    title="Aplicado"
+    status="applied"
+    [applications]="applied()"
+    [connectedTo]="columnIds"
+  />
+  <app-kanban-column
+    title="Entrevista"
+    status="interview"
+    [applications]="interview()"
+    [connectedTo]="columnIds"
+  />
+  <app-kanban-column
+    title="Oferta"
+    status="offer"
+    [applications]="offer()"
+    [connectedTo]="columnIds"
+  />
+  <app-kanban-column
+    title="Rechazado"
+    status="rejected"
+    [applications]="rejected()"
+    [connectedTo]="columnIds"
+  />
+</div>

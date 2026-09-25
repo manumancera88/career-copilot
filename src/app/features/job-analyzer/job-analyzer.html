@@ -1,0 +1,45 @@
+<div class="job-analyzer">
+  <h3>Analisador de vaga com IA</h3>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <textarea
+      formControlName="jobDescription"
+      placeholder="Cole aqui a descrição da vaga..."
+      rows="4"
+    ></textarea>
+
+    <textarea formControlName="cvSummary" placeholder="Resumo do seu perfil" rows="2"></textarea>
+
+    <button type="submit" [disabled]="analyzerService.loading()">
+      @if (analyzerService.loading()) {
+        Analisando...
+      } @else {
+        Analisar vaga
+      }
+    </button>
+  </form>
+
+  @if (analyzerService.error()) {
+    <p class="error">{{ analyzerService.error() }}</p>
+  }
+
+  @if (analyzerService.result(); as result) {
+    <div class="result">
+      <p class="match-score">Match: {{ result.matchScore }}%</p>
+
+      <h4>Requisitos-chave</h4>
+      <ul>
+        @for (req of result.requisitosChave; track req) {
+          <li>{{ req }}</li>
+        }
+      </ul>
+
+      <h4>Sugestões</h4>
+      <ul>
+        @for (sug of result.sugestoes; track sug) {
+          <li>{{ sug }}</li>
+        }
+      </ul>
+    </div>
+  }
+</div>
