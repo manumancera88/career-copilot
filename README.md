@@ -8,7 +8,7 @@ Durante minha busca por uma vaga como desenvolvedor Angular, me vi criando manua
 
 ## Demo
 
-🔗 [link ao vivo — adicionar após o deploy]
+🔗 [career-copilot-zeta-livid.vercel.app](https://career-copilot-zeta-livid.vercel.app)
 
 ## Funcionalidades
 
