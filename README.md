@@ -1,59 +1,47 @@
-# CareerCopilot
+# Career Copilot
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.24.
+> Tracker de candidaturas com análise de vagas por IA, construído em Angular 21 (standalone, signals, zoneless, SSR)
 
-## Development server
+## O problema
 
-To start a local development server, run:
+Durante minha busca por uma vaga como desenvolvedor Angular, me vi criando manualmente uma versão diferente de currículo para cada candidatura — sem nenhuma forma de acompanhar o que já tinha enviado, em que etapa cada processo estava, ou o quão bem meu perfil realmente batia com cada vaga. Career Copilot nasceu para resolver esse problema real, e ao mesmo tempo servir como demonstração prática de Angular moderno aplicado a um caso de uso concreto.
 
-```bash
-ng serve
-```
+## Demo
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🔗 [link ao vivo — adicionar após o deploy]
 
-## Code scaffolding
+## Funcionalidades
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Kanban de candidaturas** com drag-and-drop entre 4 etapas (Aplicado, Entrevista, Oferta, Rechazado)
+- **Análise de vaga com IA**: cole a descrição de uma vaga e receba requisitos-chave extraídos, um score de match contra seu perfil, e sugestões concretas de ajuste no currículo
+- **Persistência local** via `localStorage`, com sincronização automática via Angular signals + `effect()`
 
-```bash
-ng generate component component-name
-```
+## Stack e decisões técnicas
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Angular 21 standalone + signals + zoneless change detection** — arquitetura sem NgModules, com estado reativo via `signal()`/`computed()` em vez do padrão `BehaviorSubject` + `async pipe`
+- **Angular CDK (drag-and-drop)** — optei pelo CDK nativo do Angular em vez de uma lib de terceiros, evitando dependências desnecessárias e mantendo controle total sobre o comportamento
+- **Reactive Forms tipados** (`FormBuilder.nonNullable`) — formulários com tipagem estrita, zero `any`
+- **Gemini API via Vercel Functions (serverless)** — a chamada à IA nunca acontece direto do frontend: um proxy serverless mantém a API key exclusivamente no backend, nunca exposta no bundle do Angular
+- **SSR (Server-Side Rendering)** — habilitado desde o início do projeto para melhor performance inicial
 
-```bash
-ng generate --help
-```
+## Desafios técnicos resolvidos
 
-## Building
+Alguns problemas reais enfrentados durante o desenvolvimento (e não encontrados em tutoriais):
 
-To build the project run:
+- **Proteção SSRF nova do Angular 21**: o servidor SSR passou a validar rigorosamente o header `Host`, bloqueando requisições via proxy local (`vercel dev`). Resolvido configurando `trustProxyHeaders` no `AngularNodeAppEngine` e a variável `NG_ALLOWED_HOSTS` para desenvolvimento.
+- **Mudança de formato de credenciais do Google**: contas novas do Gemini API recebem chaves no formato `AQ.` (authorization key) em vez do tradicional `AIza` (standard key) — que exige autenticação via header `x-goog-api-key` em vez do parâmetro de URL usado na documentação legada.
+- **Conflito de versões entre Angular CDK e Angular core**: resolvido fixando a versão do CDK compatível (`@angular/cdk@21`) em vez de instalar a última disponível.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Rodando localmente
 
 ```bash
-ng test
+npm install
+npm run start          # roda o frontend Angular
+vercel dev             # roda frontend + função serverless de IA juntos
 ```
 
-## Running end-to-end tests
+Crie um arquivo `.env` na raiz com sua própria chave gratuita do Gemini (via [Google AI Studio](https://aistudio.google.com/apikey)):
 
-For end-to-end (e2e) testing, run:
+## Autor
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Enmanuel (Manu) Mancera — [LinkedIn](https://linkedin.com/in/enmanuelmancera) · [GitHub](https://github.com/manumancera88)
