@@ -42,6 +42,10 @@ vercel dev             # roda frontend + função serverless de IA juntos
 
 Crie um arquivo `.env` na raiz com sua própria chave gratuita do Gemini (via [Google AI Studio](https://aistudio.google.com/apikey)):
 
+```
+GEMINI_API_KEY=sua_chave_aqui
+```
+
 ## Autor
 
 Enmanuel (Manu) Mancera — [LinkedIn](https://linkedin.com/in/enmanuelmancera) · [GitHub](https://github.com/manumancera88)
